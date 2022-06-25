@@ -17,8 +17,8 @@ function Navbar() {
   });
 
   return (
-    <nav className="fixed w-full nav transition-all duration-700">
-      <div className="max-w-6xl mx-auto px-4">
+    <nav className="fixed w-full nav transition-all duration-700 z-10">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between relative">
           {/* 왼쪽 메뉴 */}
           <div className="flex items-center">
@@ -67,7 +67,8 @@ function Navbar() {
               </label>
               <input
                 type="text"
-                className="py-1 w-0 peer-checked:w-36 bg-black transition-all duration-700 rounded-r-md peer-checked:border-2 border-solid border-white"
+                className="py-1 w-0 peer-checked:w-36 bg-black transition-all duration-700 rounded-r-md peer-checked:border-2 border-solid border-white text-white peer-checked:pl-2 outline-none"
+                placeholder="제목,사람,장르"
               />
             </div>
             <Link to="/login">

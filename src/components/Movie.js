@@ -1,20 +1,20 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import noImage from "../img/noImage.jpg";
+import { IMAGE_API_PATH } from "../Config";
 
-function Movie({ id, posters, title, plotText, genre }) {
-  let imageSrc = "";
-
-  if (posters !== "") {
-    imageSrc = posters.split("|")[0];
+function Movie({ id, posters, title }) {
+  let poster;
+  if (posters) {
+    poster = `${IMAGE_API_PATH}/w500${posters}`;
   } else {
-    imageSrc = noImage;
+    poster = noImage;
   }
 
   return (
     <div>
       <div>
-        <img src={imageSrc} alt={title} />
+        <img src={poster} alt={title} />
         <h2>
           <Link to={`/movie/${id}`}>{title}</Link>
         </h2>
@@ -24,11 +24,9 @@ function Movie({ id, posters, title, plotText, genre }) {
 }
 
 Movie.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   posters: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  plotText: PropTypes.string.isRequired,
-  genre: PropTypes.string.isRequired,
 };
 
 export default Movie;

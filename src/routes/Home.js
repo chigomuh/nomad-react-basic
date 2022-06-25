@@ -1,30 +1,33 @@
 import { useEffect, useState } from "react";
 import Movie from "../components/Movie";
 import Navbar from "../components/Navbar";
-import API_KEY from "../key";
+import MainMovie from "../components/MainMovie";
+import { API_KEY, IMAGE_API_PATH, MOVIE_API_PATH } from "../Config";
 
 function Home() {
   const [loading, setLoading] = useState(true);
   const [movies, setMovies] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [nextPage, setNextPage] = useState(1);
 
-  const getMovies = async (pages, items) => {
-    const json = await (
-      await fetch(
-        `http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=${API_KEY}&releaseDts=20220101&startCount=${pages}&listCount=${items}&nation=대한민국&detail=Y`
-      )
-    ).json();
-    setMovies([...movies, ...json.Data[0].Result]);
-    setLoading(false);
-    setCurrentPage((currentPage) => currentPage + items);
+  const getMovies = async (pages) => {
+    if (movies.length === (pages - 1) * 20) {
+      const json = await (
+        await fetch(
+          `${MOVIE_API_PATH}/now_playing?api_key=${API_KEY}&language=ko&page=${pages}&region=KR`
+        )
+      ).json();
+      setMovies([...movies, ...json.results]);
+      setLoading(false);
+      setNextPage(nextPage + 1);
+    }
   };
 
   useEffect(() => {
-    getMovies(currentPage, 10);
+    getMovies(nextPage);
   }, []);
 
   const fetchMovies = () => {
-    getMovies(currentPage, 20);
+    getMovies(nextPage);
   };
 
   return (
@@ -34,14 +37,13 @@ function Home() {
         <h1>로딩중...</h1>
       ) : (
         <div>
-          {movies.map((movie) => (
+          <MainMovie movie={movies[0]} />
+          {movies.slice(1).map((movie) => (
             <Movie
-              key={movie.DOCID}
-              id={movie.DOCID}
-              posters={movie.posters}
+              key={movie.id}
+              id={movie.id}
+              posters={movie.poster_path}
               title={movie.title}
-              plotText={movie.plots.plot[0].plotText}
-              genre={movie.genre}
             />
           ))}
           <button onClick={fetchMovies}>더보기</button>

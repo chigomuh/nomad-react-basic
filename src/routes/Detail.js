@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import noImage from "../img/noImage.jpg";
-import API_KEY from "../key";
+import { API_KEY } from "../Config";
 
 function Detail() {
   const { id } = useParams();
