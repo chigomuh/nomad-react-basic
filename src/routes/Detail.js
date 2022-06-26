@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import noImage from "../img/noImage.jpg";
 import { API_KEY } from "../Config";
 
 function Detail() {
@@ -44,12 +43,6 @@ function Detail() {
       movie.plots.plot[0].plotText.length <= summary
         ? movie.plots.plot[0].plotText
         : `${movie.plots.plot[0].plotText.slice(0, summary)}...`;
-
-    if (movie.posters !== "") {
-      imageSrc = movie.posters.split("|")[0];
-    } else {
-      imageSrc = noImage;
-    }
   }
 
   return (

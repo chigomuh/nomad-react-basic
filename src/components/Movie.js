@@ -1,25 +1,16 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import noImage from "../img/noImage.jpg";
 import { IMAGE_API_PATH } from "../Config";
 
 function Movie({ id, posters, title }) {
-  let poster;
-  if (posters) {
-    poster = `${IMAGE_API_PATH}/w500${posters}`;
-  } else {
-    poster = noImage;
-  }
+  const poster_path = `${IMAGE_API_PATH}/w500${posters}`;
 
   return (
-    <div>
-      <div>
-        <img src={poster} alt={title} />
-        <h2>
-          <Link to={`/movie/${id}`}>{title}</Link>
-        </h2>
+    <Link to={`/movie/${id}`}>
+      <div className="w-full px-1">
+        <img className="rounded-lg" src={poster_path} alt={title} />
       </div>
-    </div>
+    </Link>
   );
 }
 
