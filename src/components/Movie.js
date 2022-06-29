@@ -1,14 +1,28 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { IMAGE_API_PATH } from "../Config";
+import { useRef } from "react";
 
-function Movie({ id, posters, title }) {
+function Movie({ id, posters, title, width }) {
   const poster_path = `${IMAGE_API_PATH}/w500${posters}`;
+  const height = useRef(160);
+
+  window
+    .matchMedia("(min-width: 1537px)")
+    .addEventListener("change", () => (height.current = 360));
 
   return (
     <Link to={`/movie/${id}`}>
-      <div className="w-full px-1">
-        <img className="rounded-lg" src={poster_path} alt={title} />
+      <div className="px-1">
+        <img
+          className="rounded-lg transition-none"
+          style={{
+            height: `${height}px`,
+            width: `${width}px`,
+          }}
+          src={poster_path}
+          alt={title}
+        />
       </div>
     </Link>
   );

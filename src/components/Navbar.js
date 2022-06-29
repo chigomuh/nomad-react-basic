@@ -3,8 +3,6 @@ import searchIcon from "../img/searchIcon.png";
 import { Link } from "react-router-dom";
 
 function Navbar() {
-  const nav = document.querySelector(".nav");
-
   return (
     <nav className="fixed w-full nav transition-all duration-700 z-10">
       <div className="absolute bg-black w-full h-full blur-2xl"></div>
@@ -57,7 +55,7 @@ function Navbar() {
               </label>
               <input
                 type="text"
-                className="py-1 w-0 peer-checked:w-28 md:peer-checked:w-40 bg-black transition-all duration-700 rounded-r-md peer-checked:border-2 border-solid border-white text-white peer-checked:pl-2 outline-none text-sm"
+                className="py-1 w-0 peer-checked:w-24 md:peer-checked:w-40 bg-black transition-all duration-700 rounded-r-md peer-checked:border-2 border-solid border-white text-white peer-checked:pl-2 outline-none text-xs"
                 placeholder="제목,사람,장르"
               />
             </div>

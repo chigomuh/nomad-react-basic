@@ -1,35 +1,43 @@
-import { useEffect, useState } from "react";
-import Movie from "../components/Movie";
+import { useEffect, useState, useRef } from "react";
 import Navbar from "../components/Navbar";
 import MainMovie from "../components/MainMovie";
 import { API_KEY, MOVIE_API_PATH } from "../Config";
-import Loading from "../components/Loading";
+import MovieContentBlock from "../components/MovieContentBlock";
 
 function Home() {
-  const [loading, setLoading] = useState(true);
-  const [movies, setMovies] = useState([]);
-  const [nextPage, setNextPage] = useState(1);
   const [genres, setGenres] = useState([]);
-  const mainMovies = movies.filter((movie) => {
+  const [nowMovies, setNowMovies] = useState([]);
+  const [popularMovies, setPopularMovies] = useState([]);
+  const [topRatedMovies, setTopRaterMovies] = useState([]);
+  const [upComingMovies, setupComingMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const movieUrl = {
+    nowPlaying: `${MOVIE_API_PATH}/movie/now_playing?api_key=${API_KEY}&language=ko&region=KR&page=1`,
+    popular: `${MOVIE_API_PATH}/movie/popular?api_key=${API_KEY}&language=ko&region=KR&page=1`,
+    topRate: `${MOVIE_API_PATH}/movie/top_rated?api_key=${API_KEY}&language=ko&region=KR&page=1`,
+    upComing: `${MOVIE_API_PATH}/movie/upcoming?api_key=${API_KEY}&language=ko&region=KR&page=1`,
+  };
+
+  const mainMovies = nowMovies.filter((movie) => {
     return movie.backdrop_path;
   });
   const randomIndex = Math.floor(Math.random() * mainMovies.length);
   const mainMovie = mainMovies[randomIndex];
 
-  const postMovies = movies.filter((movie) => {
-    return movie.poster_path;
-  });
+  const postMovies = (movies) => {
+    return movies.filter((movie) => {
+      return movie.poster_path;
+    });
+  };
 
-  const getMovies = async (pages) => {
-    if (movies.length === (pages - 1) * 20) {
-      const json = await (
-        await fetch(
-          `${MOVIE_API_PATH}/movie/now_playing?api_key=${API_KEY}&language=ko&page=${pages}&region=KR`
-        )
-      ).json();
-      setMovies([...movies, ...json.results]);
+  const getMovies = async (url, setStateFunc, isEnd = false) => {
+    const json = await (await fetch(url)).json();
+    const filterMovies = postMovies(json.results);
+    setStateFunc([...nowMovies, ...filterMovies]);
+
+    if (isEnd) {
       setLoading(false);
-      setNextPage(nextPage + 1);
     }
   };
 
@@ -43,90 +51,60 @@ function Home() {
   };
 
   useEffect(() => {
-    getMovies(nextPage);
+    getMovies(movieUrl.nowPlaying, setNowMovies);
+    getMovies(movieUrl.popular, setPopularMovies);
+    getMovies(movieUrl.topRate, setTopRaterMovies);
+    getMovies(movieUrl.upComing, setupComingMovies, true);
     getMovieGenre();
   }, []);
 
-  const fetchMovies = () => {
-    getMovies(nextPage);
-  };
-
-  // 변수
-  let isDragging = false;
-  let startPos = 0;
-  let currentTranslate = 0;
-  let prevTranslate = 0;
-  let animationID = 0;
-
-  // 오른쪽 클릭 방지
-  window.oncontextmenu = function (event) {
-    event.preventDefault();
-    event.stopPropagation();
-    return false;
-  };
-
-  // 터치 이벤트
-  const popular = document.querySelector("#popular");
-  if (popular) {
-    popular.addEventListener("touchstart", touchStart());
-    popular.addEventListener("touchend", touchEnd);
-    popular.addEventListener("touchmove", touchMove);
-
-    // 마우스 이벤트
-    popular.addEventListener("mousedown", touchStart());
-    popular.addEventListener("mouseup", touchEnd);
-    popular.addEventListener("mouse.leave", touchEnd);
-    popular.addEventListener("mousemove", touchMove);
-  }
-
-  function touchStart() {
-    return function (event) {
-      console.log("start");
-      console.log(event.type.includes("mouse"));
-      isDragging = true;
-    };
-  }
-
-  function touchEnd() {
-    console.log("end");
-    isDragging = false;
-  }
-
-  function touchMove() {
-    if (isDragging) {
-    }
-  }
+  if (loading === true) return <div>로딩중...</div>;
 
   return (
     <div className="overflow-x-hidden overflow-y-scroll bg-black text-white h-screen w-screen">
       <Navbar />
-      {loading ? (
-        <Loading />
-      ) : (
-        <div>
-          <MainMovie movie={mainMovie} genres={genres} />
-          <div className="px-2 pt-4 text-lg font-semibold">
-            <h1>지금 상영 중인 콘텐츠</h1>
-          </div>
-          <div
-            id="popular"
-            className={`ml-2 relative flex h-40 my-2`}
-            style={{
-              width: `${112 * postMovies.length}px`,
-            }}
-          >
-            {postMovies.map((movie) => (
-              <Movie
-                key={movie.id}
-                id={movie.id}
-                posters={movie.poster_path}
-                title={movie.title}
-              />
-            ))}
-            <button onClick={fetchMovies}>더보기</button>
-          </div>
+      <div>
+        <MainMovie movie={mainMovie} genres={genres} />
+        {nowMovies && (
+          <>
+            <div className="px-2 pt-4 text-lg font-medium">
+              <h1 className="2xl:text-2xl">지금 상영 중인 콘텐츠</h1>
+            </div>
+            <MovieContentBlock
+              id="nowMovies"
+              movies={nowMovies}
+              url={movieUrl.nowPlaying}
+            />
+          </>
+        )}
+
+        <div className="px-2 pt-4 text-lg font-medium">
+          <h1 className="2xl:text-2xl">지금 뜨는 콘텐츠</h1>
         </div>
-      )}
+        <MovieContentBlock
+          id="popularMovies"
+          movies={popularMovies}
+          url={movieUrl.popular}
+        />
+
+        <div className="px-2 pt-4 text-lg font-medium">
+          <h1 className="2xl:text-2xl">대한민국 인기 콘텐츠</h1>
+        </div>
+        <MovieContentBlock
+          id="topRateMovies"
+          movies={topRatedMovies}
+          url={movieUrl.topRate}
+        />
+
+        <div className="px-2 pt-4 text-lg font-medium">
+          <h1 className="2xl:text-2xl">새로 올라온 콘텐츠</h1>
+        </div>
+        <MovieContentBlock
+          id="upComingMovies"
+          movies={upComingMovies}
+          url={movieUrl.upComing}
+        />
+      </div>
     </div>
   );
 }
