@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import MainMovie from "../components/MainMovie";
 import { API_KEY, MOVIE_API_PATH } from "../Config";

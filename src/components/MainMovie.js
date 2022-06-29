@@ -88,10 +88,16 @@ function MainMovie({ movie, genres }) {
                 <div className="hidden md:block py-3 text-[1.2vw] font-light">
                   {movie.overview}
                 </div>
-                <button className="hidden scale-75 sm:flex md:scale-100 bg-zinc-500 opacity-80 font-bold hover:bg-zinc-600 rounded-md py-2 px-5">
-                  <img className="w-6 h-6 mr-3" src={infoIcon} alt="infoIcon" />
-                  <span>상세정보</span>
-                </button>
+                <Link to={`/movie/${movie.id}`}>
+                  <button className="hidden scale-75 sm:flex md:scale-100 bg-zinc-500 opacity-80 font-bold hover:bg-zinc-600 rounded-md py-2 px-5">
+                    <img
+                      className="w-6 h-6 mr-3"
+                      src={infoIcon}
+                      alt="infoIcon"
+                    />
+                    <span>상세정보</span>
+                  </button>
+                </Link>
               </div>
               <div className="hidden md:block w-1/3 align-middle min-h-[380px]">
                 {movieVideo && (

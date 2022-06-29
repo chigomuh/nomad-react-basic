@@ -13,7 +13,7 @@ function Movie({ id, posters, title, width }) {
 
   return (
     <Link to={`/movie/${id}`}>
-      <div className="px-1">
+      <div className="px-1 hover:scale-150 hover:z-10 transition-all ease-out hover:mx-6 duration-300">
         <img
           className="rounded-lg transition-none"
           style={{
