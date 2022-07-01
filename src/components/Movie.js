@@ -6,14 +6,20 @@ import { useRef } from "react";
 function Movie({ id, posters, title, width }) {
   const poster_path = `${IMAGE_API_PATH}/w500${posters}`;
   const height = useRef(160);
+  const is3xl = useRef(false);
 
-  window
-    .matchMedia("(min-width: 1537px)")
-    .addEventListener("change", () => (height.current = 360));
+  window.matchMedia("(min-width: 1537px)").addEventListener("change", () => {
+    height.current = 360;
+    is3xl.current = true;
+  });
 
   return (
     <Link to={`/movie/${id}`}>
-      <div className="px-1 hover:scale-150 hover:z-10 transition-all ease-out hover:mx-6 duration-300 2xl:hover:mx-[72px]">
+      <div
+        className={`px-1 hover:scale-150 hover:z-10 transition-all ease-out hover:mx-6 duration-300 ${
+          is3xl.current ? "hover:mx-[72px]" : ""
+        }`}
+      >
         <img
           className="rounded-lg transition-none"
           style={{
