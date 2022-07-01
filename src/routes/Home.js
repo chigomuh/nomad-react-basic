@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import MainMovie from "../components/MainMovie";
 import { API_KEY, MOVIE_API_PATH } from "../Config";
 import MovieContentBlock from "../components/MovieContentBlock";
+import { Outlet } from "react-router-dom";
 
 function Home() {
   const [genres, setGenres] = useState([]);
@@ -105,6 +106,7 @@ function Home() {
           url={movieUrl.upComing}
         />
       </div>
+      <Outlet />
     </div>
   );
 }

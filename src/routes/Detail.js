@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { API_KEY, MOVIE_API_PATH, IMAGE_API_PATH } from "../Config";
 import VideoCard from "../components/VideoCard";
 
@@ -10,6 +10,7 @@ function Detail() {
   const [movie, setMovie] = useState([]);
   const [videos, setVideos] = useState([]);
   const [actors, setActors] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`${MOVIE_API_PATH}/movie/${params.id}?api_key=${API_KEY}&language=ko`)
@@ -39,76 +40,92 @@ function Detail() {
   } else {
     backImage = movie.poster_path;
   }
-  console.log(actors);
+
+  const navigateHome = () => {
+    navigate("/");
+  };
+
   if (loading) return <div>로딩중...</div>;
 
   if (movie.length !== 0) {
     return (
       <>
         <div
-          className="w-full relative"
-          style={{
-            display: backImage === movie.poster_path ? "flex" : "block",
-          }}
+          className="absolute w-screen h-screen top-0 left-0 bg-[#181818]/[.7] flex justify-center items-center z-[100]"
+          onClick={navigateHome}
+        ></div>
+        <div
+          className="absolute w-[90%] h-[90%] top-[5%] left-1/2 max-w-[1250px] overflow-y-scroll bg-[#181818] z-[101] -translate-x-1/2 rounded-lg scrollbar-hide"
+          style={{}}
         >
-          {backImage === movie.poster_path && (
-            <div className="w-1/3 bg-black opacity-90"></div>
-          )}
-          <img
-            className=""
-            src={`${IMAGE_API_PATH}/original${backImage}`}
+          <div
+            className="relative w-full"
             style={{
-              width: backImage === movie.poster_path ? "33.33%" : "100%",
+              display: backImage === movie.poster_path ? "flex" : "block",
             }}
-            alt={movie.title}
-          />
-          <div className="absolute w-full h-[30px] bg-black blur-2xl top-0"></div>
-          <div className="absolute w-full h-[30px] bg-black blur-2xl bottom-16"></div>
-          {backImage === movie.poster_path && (
-            <div className="w-1/3 bg-black opacity-90"></div>
-          )}
-        </div>
-        <div>
-          <span>{movie?.release_date.slice(0, 4)}</span>
-          <span>{movie.production_countries[0]?.iso_3166_1}</span>
-          <span>{movie?.vote_average}</span>
-        </div>
-        <div>{movie?.title}</div>
-        <div>{movie?.tagline}</div>
-        <div>{movie?.overview}</div>
-        <div>
-          <span>출연: </span>
-          {actors.slice(0, 3).map((actor) => {
-            return <span key={actor.id}>{actor.name}, </span>;
-          })}
-          <button>더보기</button>
-        </div>
-        <div>
-          <span>장르: </span>
-          {movie.genres?.map((genre, index) => {
-            let splitText = ", ";
+          >
+            {backImage === movie.poster_path && (
+              <div className="w-1/3 bg-black opacity-90"></div>
+            )}
+            <img
+              className=""
+              src={`${IMAGE_API_PATH}/original${backImage}`}
+              style={{
+                width: backImage === movie.poster_path ? "33.33%" : "100%",
+              }}
+              alt={movie.title}
+            />
+            <div className="absolute w-full h-[30px] bg-black blur-2xl top-0"></div>
+            <div className="absolute w-full h-[30px] bg-black blur-2xl bottom-16"></div>
+            {backImage === movie.poster_path && (
+              <div className="w-1/3 bg-black opacity-90"></div>
+            )}
+            <button className="absolute top-0 right-0" onClick={navigateHome}>
+              닫기
+            </button>
+          </div>
+          <div>
+            <span>{movie?.release_date.slice(0, 4)}</span>
+            <span>{movie.production_countries[0]?.iso_3166_1}</span>
+            <span>{movie?.vote_average}</span>
+          </div>
+          <div>{movie?.title}</div>
+          <div>{movie?.tagline}</div>
+          <div>{movie?.overview}</div>
+          <div>
+            <span>출연: </span>
+            {actors.slice(0, 3).map((actor) => {
+              return <span key={actor.id}>{actor.name}, </span>;
+            })}
+            <button>더보기</button>
+          </div>
+          <div>
+            <span>장르: </span>
+            {movie.genres?.map((genre, index) => {
+              let splitText = ", ";
 
-            if (index === Object.keys(movie.genres).length - 1) {
-              splitText = "";
-            }
-            return (
-              <span key={genre.id}>
-                {genre.name}
-                {splitText}
-              </span>
-            );
-          })}
-          {movie.runtime !== 0 ? (
-            <div>
-              {Math.floor(movie?.runtime / 60)}시간 {movie?.runtime % 60}분
-            </div>
-          ) : null}
-        </div>
-        {videos.map((video) => (
-          <VideoCard key={video.id} video={video} />
-        ))}
-        <div>
-          <div></div>
+              if (index === Object.keys(movie.genres).length - 1) {
+                splitText = "";
+              }
+              return (
+                <span key={genre.id}>
+                  {genre.name}
+                  {splitText}
+                </span>
+              );
+            })}
+            {movie.runtime !== 0 ? (
+              <div>
+                {Math.floor(movie?.runtime / 60)}시간 {movie?.runtime % 60}분
+              </div>
+            ) : null}
+          </div>
+          {videos.map((video) => (
+            <VideoCard key={video.id} video={video} />
+          ))}
+          <div>
+            <div></div>
+          </div>
         </div>
       </>
     );
