@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/nomad-react-basic/static/css/main.9c73e4ca.css",
+    "main.js": "/nomad-react-basic/static/js/main.e8d9c931.js",
+    "static/media/placeholderImage.png": "/nomad-react-basic/static/media/placeholderImage.c8b4a340dd7340498693.png",
+    "static/media/infoIcon.png": "/nomad-react-basic/static/media/infoIcon.35e48447750919113351.png",
+    "static/media/Netflix-Brand-Logo.png": "/nomad-react-basic/static/media/Netflix-Brand-Logo.cb44151406e841a40e98.png",
+    "static/media/searchIcon.png": "/nomad-react-basic/static/media/searchIcon.926bf649046465473807.png",
+    "index.html": "/nomad-react-basic/index.html",
+    "main.9c73e4ca.css.map": "/nomad-react-basic/static/css/main.9c73e4ca.css.map",
+    "main.e8d9c931.js.map": "/nomad-react-basic/static/js/main.e8d9c931.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9c73e4ca.css",
+    "static/js/main.e8d9c931.js"
+  ]
+}
