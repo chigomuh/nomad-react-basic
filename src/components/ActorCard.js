@@ -15,7 +15,9 @@ const ActorCard = ({ actor }) => {
       />
       <div>
         <div className="w-32 text-sm">{actor.name}</div>
-        <div className="text-sm text-[#d2d2d2] w-32">{actor.character} 역</div>
+        <div className="text-xs md:text-sm text-[#d2d2d2] w-32">
+          {actor.character} 역
+        </div>
       </div>
     </div>
   );
