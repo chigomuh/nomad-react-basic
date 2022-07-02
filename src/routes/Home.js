@@ -71,13 +71,15 @@ function Home() {
     nowMovies.isLoading ||
     popularMovies.isLoading ||
     topRatedMovies.isLoading ||
-    upComingMovies.isLoading;
+    upComingMovies.isLoading ||
+    genres.isLoading;
 
   const isError =
     nowMovies.isError ||
     popularMovies.isError ||
     topRatedMovies.isError ||
-    upComingMovies.isError;
+    upComingMovies.isError ||
+    genres.isLoading;
 
   if (isLoading) return <div>로딩중...</div>;
   if (isError) return <div>에러...</div>;

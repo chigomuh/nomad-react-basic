@@ -15,11 +15,7 @@ function Movie({ id, posters, title, width }) {
 
   return (
     <Link to={`/movie/${id}`}>
-      <div
-        className={`px-1 hover:scale-150 hover:z-10 transition-all ease-out hover:mx-6 duration-300 ${
-          is3xl.current ? "hover:mx-[72px]" : ""
-        }`}
-      >
+      <div className="px-1 hover:scale-150 hover:z-10 transition-all ease-out hover:mx-8 duration-300 2xl:hover:scale-110 2xl:hover:mx-4">
         <img
           className="rounded-lg transition-none"
           style={{
