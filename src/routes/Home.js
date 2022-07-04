@@ -87,7 +87,7 @@ function Home() {
   return (
     <>
       <div
-        className="overflow-x-hidden overflow-y-scroll bg-black text-white h-screen w-screen z-0"
+        className="overflow-x-hidden overflow-y-scroll bg-[#141414] text-white h-screen w-screen z-0"
         style={{
           position: location.pathname === "/" ? "relative" : "fixed ",
         }}
@@ -106,6 +106,7 @@ function Home() {
                 id="nowMovies"
                 movies={nowMovies.data}
                 url={movieUrl.nowPlaying}
+                content="movie"
               />
             </>
           )}
@@ -117,6 +118,7 @@ function Home() {
             id="popularMovies"
             movies={popularMovies.data}
             url={movieUrl.popular}
+            content="movie"
           />
 
           <div className="px-2 pt-4 text-lg font-medium">
@@ -126,6 +128,7 @@ function Home() {
             id="topRateMovies"
             movies={topRatedMovies.data}
             url={movieUrl.topRate}
+            content="movie"
           />
 
           <div className="px-2 pt-4 text-lg font-medium">
@@ -135,10 +138,11 @@ function Home() {
             id="upComingMovies"
             movies={upComingMovies.data}
             url={movieUrl.upComing}
+            content="movie"
           />
         </div>
       </div>
-      {show ? <Detail /> : null}
+      {show ? <Detail content="movie" /> : null}
     </>
   );
 }

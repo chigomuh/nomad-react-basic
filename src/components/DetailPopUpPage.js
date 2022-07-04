@@ -6,21 +6,22 @@ import { useRef } from "react";
 const DetailPopUpPage = ({ movie, videos, moveDetailPage }) => {
   const navigate = useNavigate();
   const popupRoot = useRef(null);
+
   const navigateHome = () => {
     popupRoot.current.classList.add("translate-y-full");
     setTimeout(() => {
-      navigate("/");
+      navigate(-1);
     }, 400);
   };
 
   return (
     <>
       <div
-        className="absolute w-screen h-screen z-[100]"
+        className="fixed w-screen h-screen z-50 bottom-0"
         onClick={navigateHome}
       ></div>
       <div
-        className="absolute bg-[#333333] bottom-0 w-screen h-1/3 rounded-xl z-[101] text-white duration-500 animate-popup"
+        className="fixed bg-[#333333] bottom-0 w-screen h-1/3 rounded-xl z-[101] text-white duration-500 animate-popup"
         ref={popupRoot}
       >
         <div className="p-4 relative">

@@ -1,14 +1,24 @@
 import VideoCard from "../components/VideoCard";
 import ActorCard from "../components/ActorCard";
 import { IMAGE_API_PATH } from "../Config";
+import noImage from "../img/noImage.png";
 
-const DetailPage = ({ movie, videos, actors, navigateHome, mobile }) => {
+const DetailPage = ({
+  movie,
+  videos,
+  actors,
+  navigateHome,
+  mobile,
+  content,
+}) => {
   let backImage = null;
   if (!movie.isLoading) {
     if (movie.length !== 0 && movie.backdrop_path) {
-      backImage = movie.backdrop_path;
+      backImage = `${IMAGE_API_PATH}/original${movie.backdrop_path}`;
+    } else if (movie.poster_path) {
+      backImage = `${IMAGE_API_PATH}/original${movie.poster_path}`;
     } else {
-      backImage = movie.poster_path;
+      backImage = noImage;
     }
   }
 
@@ -25,7 +35,7 @@ const DetailPage = ({ movie, videos, actors, navigateHome, mobile }) => {
         )}
         <img
           className=""
-          src={`${IMAGE_API_PATH}/original${backImage}`}
+          src={backImage}
           style={{
             width: backImage === movie.poster_path ? "33.33%" : "100%",
           }}
@@ -51,7 +61,16 @@ const DetailPage = ({ movie, videos, actors, navigateHome, mobile }) => {
         <div className="md:flex w-full">
           <div className="md:w-2/3 md:pr-8">
             <div className="flex items-center py-8">
-              <span className="mr-2">{movie?.release_date.slice(0, 4)}</span>
+              {content === "movie" ? (
+                <span className="mr-2">{movie?.release_date.slice(0, 4)}</span>
+              ) : (
+                <span className="mr-2">
+                  {movie?.first_air_date} ~{" "}
+                  {movie?.next_episode_to_air
+                    ? "방영 중"
+                    : movie?.last_air_date}
+                </span>
+              )}
               {movie.production_countries.length !== 0 && (
                 <span className="mr-2 px-1 font-bold border-white border">
                   {movie.production_countries[0]?.iso_3166_1}
@@ -100,7 +119,7 @@ const DetailPage = ({ movie, videos, actors, navigateHome, mobile }) => {
                 </button>
               </div>
             )}
-            {movie.genres !== 0 && (
+            {movie.genres.length !== 0 && (
               <div className="pb-4">
                 <span className="text-[#777777] font-bold">장르: </span>
                 {movie.genres.map((genre, index) => {

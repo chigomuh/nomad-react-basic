@@ -5,7 +5,7 @@ import DetailPage from "../components/DetailPage";
 import DetailPopUpPage from "../components/DetailPopUpPage";
 import { useState } from "react";
 
-function Detail() {
+function Detail({ content }) {
   let isMobile = false;
   const [isPopUp, setIsPopUp] = useState(true);
 
@@ -17,7 +17,7 @@ function Detail() {
 
   const getDetailMovie = async () => {
     const response = await fetch(
-      `${MOVIE_API_PATH}/movie/${params.id}?api_key=${API_KEY}&language=ko`
+      `${MOVIE_API_PATH}/${content}/${params.id}?api_key=${API_KEY}&language=ko`
     );
     const json = await response.json();
 
@@ -26,7 +26,7 @@ function Detail() {
 
   const getVideos = async () => {
     const response = await fetch(
-      `${MOVIE_API_PATH}/movie/${params.id}/videos?api_key=${API_KEY}&language=ko`
+      `${MOVIE_API_PATH}/${content}/${params.id}/videos?api_key=${API_KEY}&language=ko`
     );
     const json = await response.json();
 
@@ -35,7 +35,7 @@ function Detail() {
 
   const getActors = async () => {
     const response = await fetch(
-      `${MOVIE_API_PATH}/movie/${params.id}/credits?api_key=${API_KEY}&language=ko`
+      `${MOVIE_API_PATH}/${content}/${params.id}/credits?api_key=${API_KEY}&language=ko`
     );
     const json = await response.json();
 
@@ -47,7 +47,7 @@ function Detail() {
   const actors = useQuery("actors", getActors);
 
   const navigateHome = () => {
-    navigate("/");
+    navigate(-1);
   };
 
   const moveDetailPage = () => {
@@ -69,15 +69,17 @@ function Detail() {
               movie={movie.data}
               videos={videos.data}
               moveDetailPage={moveDetailPage}
+              content={content}
             />
           ) : (
-            <div className="w-full h-auto min-h-screen absolute bg-black text-white">
+            <div className="w-full h-auto min-h-screen absolute bg-black text-white top-0 z-50">
               <DetailPage
                 movie={movie.data}
                 videos={videos.data}
                 actors={actors.data}
                 navigateHome={navigateHome}
                 mobile={true}
+                content={content}
               />
             </div>
           )}
@@ -95,6 +97,7 @@ function Detail() {
               actors={actors.data}
               navigateHome={navigateHome}
               mobile={false}
+              content={content}
             />
           </div>
         </>

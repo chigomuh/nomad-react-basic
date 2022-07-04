@@ -87,7 +87,7 @@ function MainMovie({ movie, genres }) {
               <button className="hidden scale-75 sm:flex md:scale-100 bg-zinc-500 opacity-80 font-bold hover:bg-zinc-600 rounded-md py-2 px-5">
                 <Link to={`/movie/${movie.id}`} className="flex w-full h-full">
                   <img className="w-6 h-6 mr-3" src={infoIcon} alt="infoIcon" />
-                  <span>상세정보</span>
+                  <span className="text-xs md:text-md">상세정보</span>
                 </Link>
               </button>
             </div>

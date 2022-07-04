@@ -1,7 +1,7 @@
 import MovieContainer from "../components/MovieContainer";
 import { useRef } from "react";
 
-function MovieContentBlock({ id, movies, url }) {
+function MovieContentBlock({ id, movies, url, content }) {
   const movieContainer = useRef(null);
   const popularPrevTranslate = useRef(0);
   const popularContainer = useRef(null);
@@ -70,6 +70,7 @@ function MovieContentBlock({ id, movies, url }) {
             currentMovies={movies}
             ref={movieContainer}
             url={url}
+            content={content}
           />
         </div>
         <button
