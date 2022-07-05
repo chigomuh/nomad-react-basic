@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/nomad-react-basic/static/css/main.e538085f.css",
-    "main.js": "/nomad-react-basic/static/js/main.b7bbe772.js",
+    "main.js": "/nomad-react-basic/static/js/main.ebca61f2.js",
     "static/media/mobileLogo.png": "/nomad-react-basic/static/media/mobileLogo.d5a39947f7882596e517.png",
     "static/media/placeholderImage.png": "/nomad-react-basic/static/media/placeholderImage.c8b4a340dd7340498693.png",
     "static/media/infoIcon.png": "/nomad-react-basic/static/media/infoIcon.35e48447750919113351.png",
@@ -10,10 +10,10 @@
     "static/media/noImage.png": "/nomad-react-basic/static/media/noImage.cd703f9f4bcabdf5c081.png",
     "index.html": "/nomad-react-basic/index.html",
     "main.e538085f.css.map": "/nomad-react-basic/static/css/main.e538085f.css.map",
-    "main.b7bbe772.js.map": "/nomad-react-basic/static/js/main.b7bbe772.js.map"
+    "main.ebca61f2.js.map": "/nomad-react-basic/static/js/main.ebca61f2.js.map"
   },
   "entrypoints": [
     "static/css/main.e538085f.css",
-    "static/js/main.b7bbe772.js"
+    "static/js/main.ebca61f2.js"
   ]
 }
