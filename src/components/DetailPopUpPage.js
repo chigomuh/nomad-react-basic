@@ -3,7 +3,7 @@ import { IMAGE_API_PATH } from "../Config";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 
-const DetailPopUpPage = ({ movie, videos, moveDetailPage }) => {
+const DetailPopUpPage = ({ movie, videos, moveDetailPage, content }) => {
   const navigate = useNavigate();
   const popupRoot = useRef(null);
 
@@ -28,17 +28,27 @@ const DetailPopUpPage = ({ movie, videos, moveDetailPage }) => {
           <div className="w-full h-auto flex">
             <img
               src={`${IMAGE_API_PATH}/w500${movie.poster_path}`}
-              alt={movie.title}
+              alt={content === "movie" ? movie.title : movie.name}
               className="rounded-md w-24"
             />
             <div className="px-2">
-              <div className="text-sm font-bold pb-1">{movie.title}</div>
+              <div className="text-sm font-bold pb-1">
+                {content === "movie" ? movie.title : movie.name}
+              </div>
               <div className="flex text-xs pb-1 text-[#777777] space-x-2">
-                <div>{movie.release_date?.slice(0, 4)}</div>
+                <div>
+                  {content === "movie"
+                    ? movie.release_date?.slice(0, 4)
+                    : movie.first_air_date.slice(0, 4)}
+                </div>
                 {movie.production_countries.length !== 0 && (
                   <div>{movie.production_countries[0]?.iso_3166_1}</div>
                 )}
-                {videos.length !== 0 && <div>에피소드 {videos.length}개</div>}
+                {content === "movie" ? (
+                  videos.length !== 0 && <div>에피소드 {videos.length}개</div>
+                ) : (
+                  <div>에피소드 {movie.number_of_episodes}개</div>
+                )}
                 {movie.vote_average !== 0 && (
                   <div className="flex items-center">
                     <svg

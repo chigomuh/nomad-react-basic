@@ -4,9 +4,15 @@ import { Link } from "react-router-dom";
 import Loading from "../components/Loading";
 import { useQuery } from "react-query";
 
-function MainMovie({ movie, genres }) {
+function MainMovie({ movie, genres, content }) {
   let isMobile = true;
   let mainImage;
+  let title;
+  if (content === "tv") {
+    title = movie.name;
+  } else if (content === "movie") {
+    title = movie.title;
+  }
   const movieGenres = genres.filter((genre) => {
     return movie.genre_ids.includes(genre.id);
   });
@@ -41,7 +47,7 @@ function MainMovie({ movie, genres }) {
 
   return (
     <div className="w-full h-3/5 relative">
-      <img className="brightness-75 w-full" src={mainImage} alt={movie.title} />
+      <img className="brightness-75 w-full" src={mainImage} alt={title} />
       {isMobile ? (
         <div>
           <div className="absolute w-full bottom-1 h-20 blur-2xl bg-black"></div>
@@ -78,14 +84,17 @@ function MainMovie({ movie, genres }) {
         >
           <div className="w-1/3 min-h-[288px]">
             <div className="hidden sm:block text-md py-3 font-bold md:text-[1.2vw]">
-              {movie.title}
+              {title}
             </div>
             <div className="hidden md:block py-3 text-[1.2vw] font-light">
               {movie.overview}
             </div>
             <div>
               <button className="hidden scale-75 sm:flex md:scale-100 bg-zinc-500 opacity-80 font-bold hover:bg-zinc-600 rounded-md py-2 px-5">
-                <Link to={`/movie/${movie.id}`} className="flex w-full h-full">
+                <Link
+                  to={`/${content}/${movie.id}`}
+                  className="flex w-full h-full"
+                >
                   <img className="w-6 h-6 mr-3" src={infoIcon} alt="infoIcon" />
                   <span className="text-xs md:text-md">상세정보</span>
                 </Link>
@@ -96,7 +105,7 @@ function MainMovie({ movie, genres }) {
             {movieVideo.data && (
               <iframe
                 className="w-full h-full"
-                title={movie.title}
+                title={title}
                 src={movieVideo.data}
               ></iframe>
             )}

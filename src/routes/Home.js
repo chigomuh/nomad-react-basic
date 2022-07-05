@@ -57,6 +57,7 @@ function Home() {
       return movie.backdrop_path;
     });
   };
+
   let mainMovies = null;
   let randomIndex = null;
   let mainMovie = null;
@@ -95,7 +96,11 @@ function Home() {
         <div>
           <Navbar />
           {mainMovie && (
-            <MainMovie movie={mainMovie} genres={genres.data.genres} />
+            <MainMovie
+              movie={mainMovie}
+              genres={genres.data.genres}
+              content="movie"
+            />
           )}
           {nowMovies.data && (
             <>

@@ -22,28 +22,41 @@ const DetailPage = ({
     }
   }
 
+  let runtime;
+  if (content === "movie") {
+    runtime = movie.runtime;
+  } else if (content === "tv") {
+    runtime = movie.episode_run_time;
+  }
+
   return (
     <>
       <div
         className="relative w-full"
         style={{
-          display: backImage === movie.poster_path ? "flex" : "block",
+          display:
+            backImage === `${IMAGE_API_PATH}/original${movie.poster_path}`
+              ? "flex"
+              : "block",
         }}
       >
-        {backImage === movie.poster_path && (
+        {backImage === `${IMAGE_API_PATH}/original${movie.poster_path}` && (
           <div className="w-1/3 bg-black opacity-90"></div>
         )}
         <img
           className=""
           src={backImage}
           style={{
-            width: backImage === movie.poster_path ? "33.33%" : "100%",
+            width:
+              backImage === `${IMAGE_API_PATH}/original${movie.poster_path}`
+                ? "33.33%"
+                : "100%",
           }}
           alt={movie.title}
         />
         <div className="absolute w-full h-[30px] bg-black blur-2xl top-0"></div>
         <div className="absolute w-full h-[30px] bg-black blur-2xl bottom-16"></div>
-        {backImage === movie.poster_path && (
+        {backImage === `${IMAGE_API_PATH}/original${movie.poster_path}` && (
           <div className="w-1/3 bg-black opacity-90"></div>
         )}
         <button
@@ -54,41 +67,64 @@ const DetailPage = ({
           <div className="absolute w-[20px] h-[2px] bg-white -rotate-45"></div>
         </button>
         <div className="absolute left-[5%] bottom-[10%] md:text-2xl text-lg font-bold md:font-medium">
-          {movie?.title}
+          {content === "movie" ? movie?.title : movie?.name}
         </div>
       </div>
       <div className="px-[5%]">
         <div className="md:flex w-full">
           <div className="md:w-2/3 md:pr-8">
-            <div className="flex items-center py-8">
-              {content === "movie" ? (
+            <div
+              className="items-center py-8"
+              style={{
+                display: content === "movie" ? "flex" : "block",
+              }}
+            >
+              {content === "movie" && movie.release_date ? (
                 <span className="mr-2">{movie?.release_date.slice(0, 4)}</span>
               ) : (
-                <span className="mr-2">
-                  {movie?.first_air_date} ~{" "}
-                  {movie?.next_episode_to_air
-                    ? "방영 중"
-                    : movie?.last_air_date}
-                </span>
+                <div className="mb-2">
+                  <span>{movie?.first_air_date}</span>
+                  <span>
+                    {movie?.first_air_date === movie?.last_air_date
+                      ? null
+                      : movie?.next_episode_to_air
+                      ? " ~ 방영 중"
+                      : ` ~ ${movie?.last_air_date}`}
+                  </span>
+                </div>
               )}
-              {movie.production_countries.length !== 0 && (
-                <span className="mr-2 px-1 font-bold border-white border">
-                  {movie.production_countries[0]?.iso_3166_1}
-                </span>
-              )}
-              {movie.vote_average !== 0 ? (
-                <span className="flex items-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  {movie.vote_average}
-                </span>
-              ) : null}
+              <div className="flex items-center">
+                {movie.production_countries.length !== 0 && (
+                  <span className="mr-2 px-1 font-bold border-white border">
+                    {movie.production_countries[0]?.iso_3166_1}
+                  </span>
+                )}
+                {movie.vote_average !== 0 ? (
+                  <span className="flex items-center mr-2 px-1">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                    {movie.vote_average}
+                  </span>
+                ) : null}
+                {content === "tv" && (
+                  <>
+                    <span className="mr-2 px-1 text-sm">
+                      {movie.number_of_episodes &&
+                        `에피소드 ${movie.number_of_episodes}개`}
+                    </span>
+                    <span className="mr-2 px-1 text-sm">
+                      {movie.number_of_seasons &&
+                        `시즌 ${movie.number_of_seasons}개`}
+                    </span>
+                  </>
+                )}
+              </div>
             </div>
             <div>
               <div className="pb-4 italic text-xl font-bold">
@@ -140,14 +176,16 @@ const DetailPage = ({
                 })}
               </div>
             )}
-            {movie.runtime !== 0 ? (
+            {runtime && (
               <div>
                 <span className="text-[#777777] font-bold">러닝타임: </span>
                 <span className="text-[#777777] md:text-white">
-                  {Math.floor(movie?.runtime / 60)}시간 {movie?.runtime % 60}분
+                  {runtime >= 60
+                    ? `${Math.floor(runtime / 60)}시간 ${runtime % 60}분`
+                    : `${runtime}분`}
                 </span>
               </div>
-            ) : null}
+            )}
           </div>
         </div>
         {videos.length !== 0 && (

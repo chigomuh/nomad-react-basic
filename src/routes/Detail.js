@@ -87,10 +87,10 @@ function Detail({ content }) {
       ) : (
         <>
           <div
-            className="absolute w-screen h-screen top-0 left-0 flex justify-center items-center z-[100] bg-[#181818]/[.7]"
+            className="absolute w-screen h-full top-0 left-0 flex justify-center items-center z-[100] bg-[#181818]/[.7]"
             onClick={navigateHome}
           ></div>
-          <div className="absolute w-[70%] h-[90%] top-[5%] left-1/2 max-w-[1250px] bg-[#181818] z-[101] -translate-x-1/2 rounded-lg scrollbar-hide overflow-y-scroll text-white">
+          <div className="absolute w-[70%] h-[90vh] top-[5%] left-1/2 max-w-[1250px] bg-[#181818] z-[101] -translate-x-1/2 rounded-lg scrollbar-hide overflow-y-scroll text-white">
             <DetailPage
               movie={movie.data}
               videos={videos.data}

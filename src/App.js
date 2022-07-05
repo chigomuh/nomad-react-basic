@@ -18,7 +18,8 @@ function App() {
             <Route path=":id" element={<div>tv</div>} />
           </Route>
           <Route path="/search/:title" element={<Search />}>
-            <Route path=":id" element={<div>searchMovie</div>} />
+            <Route path="movie/:id" element={<div>movieSearch</div>} />
+            <Route path="tv/:id" element={<div>searchMovie</div>} />
           </Route>
           <Route path="*" element={<div>404 NOT FOUND</div>} />
         </Routes>

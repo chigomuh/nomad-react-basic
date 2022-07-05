@@ -22,7 +22,9 @@ function Movie({ id, posters, title, width, type, searchTitle, content }) {
   return (
     <Link
       to={
-        type === "search" ? `/search/${searchTitle}/${id}` : `/${content}/${id}`
+        type === "search"
+          ? `/search/${searchTitle}/${content}/${id}`
+          : `/${content}/${id}`
       }
       className="flex justify-center"
     >

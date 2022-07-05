@@ -24,7 +24,7 @@ const Tv = () => {
 
   const getGenres = async () => {
     const response = await fetch(
-      `${MOVIE_API_PATH}/genre/movie/list?api_key=${API_KEY}&language=ko`
+      `${MOVIE_API_PATH}/genre/tv/list?api_key=${API_KEY}&language=ko`
     );
     const json = await response.json();
 
@@ -35,6 +35,22 @@ const Tv = () => {
   const onTheAir = useQuery("onTheAir", () => getTvs(tvUrl.onTheAir));
   const popular = useQuery("popular", () => getTvs(tvUrl.popular));
   const topRate = useQuery("topRate", () => getTvs(tvUrl.topRate));
+
+  let mainMovies = null;
+  let randomIndex = null;
+  let mainMovie = null;
+
+  const backMovies = (movies) => {
+    return movies?.filter((movie) => {
+      return movie.backdrop_path;
+    });
+  };
+
+  if (!onTheAir.isLoading) {
+    mainMovies = backMovies(onTheAir.data.results);
+    randomIndex = Math.floor(new Date().getHours() / 2);
+    mainMovie = mainMovies[randomIndex];
+  }
 
   const isLoading =
     onTheAir.isLoading ||
@@ -60,8 +76,9 @@ const Tv = () => {
         <div>
           <Navbar />
           <MainMovie
-            movie={onTheAir.data.results[0]}
+            movie={mainMovie}
             genres={genres.data.genres}
+            content="tv"
           />
           <div className="px-2 pt-4 text-lg font-medium">
             <h1 className="2xl:text-2xl">지금 상영 중인 콘텐츠</h1>

@@ -54,7 +54,7 @@ function Navbar() {
             </div>
           </div>
           {/* 오른쪽 메뉴 */}
-          <div className="flex items-center space-x-4 pr-4">
+          <div className="flex items-center space-x-4 md:pr-4">
             <form onSubmit={onSubmitSearch} className="flex">
               <input
                 id="searchCheckbox"
