@@ -27,6 +27,7 @@ function Movie({ id, posters, title, width, type, searchTitle, content }) {
           : `/${content}/${id}`
       }
       className="flex justify-center"
+      onClick={window.scrollTo(0, 0)}
     >
       <div
         className={

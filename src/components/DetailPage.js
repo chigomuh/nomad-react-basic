@@ -89,7 +89,9 @@ const DetailPage = ({
                       ? null
                       : movie?.next_episode_to_air
                       ? " ~ 방영 중"
-                      : ` ~ ${movie?.last_air_date}`}
+                      : movie?.last_air_date
+                      ? ` ~ ${movie?.last_air_date}`
+                      : null}
                   </span>
                 </div>
               )}
@@ -115,11 +117,11 @@ const DetailPage = ({
                 {content === "tv" && (
                   <>
                     <span className="mr-2 px-1 text-sm">
-                      {movie.number_of_episodes &&
+                      {movie.number_of_episodes !== 0 &&
                         `에피소드 ${movie.number_of_episodes}개`}
                     </span>
                     <span className="mr-2 px-1 text-sm">
-                      {movie.number_of_seasons &&
+                      {movie.number_of_seasons !== 0 &&
                         `시즌 ${movie.number_of_seasons}개`}
                     </span>
                   </>
@@ -176,7 +178,7 @@ const DetailPage = ({
                 })}
               </div>
             )}
-            {runtime && (
+            {runtime.length !== 0 && (
               <div>
                 <span className="text-[#777777] font-bold">러닝타임: </span>
                 <span className="text-[#777777] md:text-white">
