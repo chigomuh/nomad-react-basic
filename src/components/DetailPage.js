@@ -178,7 +178,7 @@ const DetailPage = ({
                 })}
               </div>
             )}
-            {runtime.length !== 0 && (
+            {runtime?.length !== 0 && (
               <div>
                 <span className="text-[#777777] font-bold">러닝타임: </span>
                 <span className="text-[#777777] md:text-white">
